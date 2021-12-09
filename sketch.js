@@ -1,8 +1,7 @@
 var starImg,bgImg;
 var star, starBody;
-//criar variável para sprite de fada e imgFada
-var fada, fadaImg;
-var musica;
+var fada,imgFada;
+
 
 const Engine = Matter.Engine;
 const World = Matter.World;
@@ -12,21 +11,19 @@ const Body = Matter.Body;
 function preload()
 {
     starImg = loadImage("images/star.png");
-	bgImg = loadImage("images/starNight.png");
-    //carregar animação de fada 
-    fadaImg = loadImage("images/fairy.png");
-    musica = loadSound("sound/JoyMusic.mp3");
+	bgImg = loadImage("images/starryNight.jpg");
+    imgFada = loadAnimation("images/fairyImage1.png","images/fairyImage2.png");
+
 }
 
 function setup() {
     createCanvas(800, 750);
+   
+   
 
-    //escrever código para tocar o som vozFada
-    musica.play();
-    //criar sprite de fada e adicionar animação para fada
-    fada = createSprite(600,520);
-    fada.addImage(fadaImg);
-    fada.scale = 0.12 ;
+    fada = createSprite(400,325);
+    fada.addAnimation("fada",imgFada);
+    fada.scale = 0.2;
 
     star = createSprite(650,30);
 	star.addImage(starImg);
@@ -43,30 +40,27 @@ function setup() {
 }
 
 function draw(){
+    background(bgImg);
 
-background(bgImg);
 
-star.x=starBody.position.x;
-star.y= starBody.position.y;
-
-if (keyDown("left")){
-    fada.velocityX = -5;
-}
-if(keyDown("right")){
-    fada.velocityX = 5;
+if(keyDown(LEFT_ARROW)){
+fada.x = fada.x + -3;
 }
 
-if(keyDown("down")){
-    Matter.Body.setStatic(starBody,false);
+if(keyDown(RIGHT_ARROW)){
+    fada.x = fada.x + 3;
+}
+	
+if(keyDown(DOWN_ARROW)){
+ Matter.Body.setStatic(starBody,false);
 }
 
 
-
-if (star.y > 470 && starBody.position.y > 470){
-   Matter.Body.setStatic(starBody,true);
+if(star.y > 470 && starBody.position.y > 470){
+    Matter.Body.setStatic(starBody,true);
 }
 
 
-drawSprites();
 
+    drawSprites();
 }
